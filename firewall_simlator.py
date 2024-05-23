@@ -1,4 +1,7 @@
 import random
+import logging
+
+logging.basicConfig(filename="firewall.log", level=logging.INFO)
 
 
 def generate_random_ip():
@@ -11,6 +14,11 @@ def check_firewall_rules(ip, port, protocol, rules):
         if rule_ip == ip and rule_port == port and rule_protocol == protocol:
             return action
     return "allow"
+
+
+def log_action(ip, port, protocol, action):
+    logging.info(
+        f"IP: {ip}, Port: {port}, Protocol: {protocol}, Action: {action}")
 
 
 def main():
@@ -31,6 +39,7 @@ def main():
         protocol = random.choice(['TCP', 'UDP'])
         action = check_firewall_rules(
             ip_address, port_number, protocol, firewall_rules)
+        log_action(ip_address, port_number, protocol, action)
         random_number = random.randint(0, 9999)
         print(
             f"IP: {ip_address}, Port Number: {port_number}, Protocol: {protocol}, Action: {action}, Random Number: {random_number}")
