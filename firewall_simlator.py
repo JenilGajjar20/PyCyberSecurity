@@ -21,8 +21,22 @@ def log_action(ip, port, protocol, action):
         f"IP: {ip}, Port: {port}, Protocol: {protocol}, Action: {action}")
 
 
+def getUserRules():
+    rules = []
+    while True:
+        ip = input("Enter IP address (or 'done' to finish): ")
+        if ip == 'done':
+            break
+        port = int(input("Enter port number: "))
+        protocol = input("Enter protocol (TCP or UDP): ")
+        action = input("Enter action (allow/block): ")
+        rules.append((ip, port, protocol, action))
+    return rules
+
+
 def main():
-    firewall_rules = [
+    user_rules = getUserRules()
+    predefined_rules = [
         ("192.168.1.1", 80, "TCP", "block"),
         ("192.168.1.4", 22, "TCP", "block"),
         ("192.168.1.9", 53, "UDP", "block"),
@@ -32,6 +46,8 @@ def main():
         ("192.168.1.22", 67, "DHCP", "block"),
         ("192.168.1.27", 194, "TCP", "block"),
     ]
+
+    firewall_rules = predefined_rules + user_rules
 
     for _ in range(12):
         ip_address = generate_random_ip()
