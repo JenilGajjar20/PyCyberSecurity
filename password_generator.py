@@ -1,4 +1,4 @@
-import random
+import secrets
 import string
 
 
@@ -6,10 +6,20 @@ def generatePass(length):
     # Defining the characters
     characters = string.ascii_letters + string.digits + string.punctuation
 
-    # Generating a password by randomly selecting characters
-    password = ''.join(random.choice(characters) for _ in range(length))
+    # Ensure password complexity
+    password = []
+    password.append(secrets.choice(string.ascii_lowercase))
+    password.append(secrets.choice(string.ascii_uppercase))
+    password.append(secrets.choice(string.digits))
+    password.append(secrets.choice(string.punctuation))
 
-    return password
+    for _ in range(length):
+        password.append(secrets.choice(characters))
+
+    # Shuffling the list
+    secrets.SystemRandom().shuffle(password)
+
+    return ''.join(password)
 
 
 def checkLength(length):
