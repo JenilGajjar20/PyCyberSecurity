@@ -8,7 +8,7 @@ Contributions are welcome to enhance and expand this repository! If you have a n
 
 1. Fork the repository.
 2. Create a new branch (`git checkout -b feature/YourFeature`).
-3. COmmit your changes (`git commit -m "add a commit message"`).
+3. Commit your changes (`git commit -m "add a commit message"`).
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Open a Pull Request.
 
